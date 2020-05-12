@@ -1,0 +1,12 @@
+
+U	java:S1060"9Replace this use of System.out or System.err by a logger.(–³•8ì«ğŸ.
+S	java:S1065"9Replace this use of System.out or System.err by a logger.(“ĞØ‹üÿÿÿÿ
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(Ïœ›¥úÿÿÿÿ8ä²óïŸ.
+S	java:S106"9Replace this use of System.out or System.err by a logger.(—‰Š‚øÿÿÿÿ
+U	java:S106*"9Replace this use of System.out or System.err by a logger.(©¡ŠÂ8ÄÏşïŸ.
+Z	java:S106"9Replace this use of System.out or System.err by a logger.(õ¯¦Ïşÿÿÿÿ8ËÌöïŸ.
+R
+java:S1172/"0Remove this unused method parameter "joinPoint".(òó´ùÿÿÿÿ8ì«ğŸ.
+U	java:S106"9Replace this use of System.out or System.err by a logger.(ŒÉ•8öùïŸ.
+Z	java:S106&"9Replace this use of System.out or System.err by a logger.(šÕ¼»şÿÿÿÿ8ğœûïŸ.
+M	java:S106"9Replace this use of System.out or System.err by a logger.(¦Ï°

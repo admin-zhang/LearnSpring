@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+<!--基于代理类的 AOP 的实现-->
+<!--**************************************************************************************************************-->
+    <!--1.目标类-->
+<!--        <bean id="userDao" class="xyz.codedog.chapter03.jdk.impl.UserDaoImpl"/>
+    &lt;!&ndash;2.切面类&ndash;&gt;
+        <bean id="myAspect" class="xyz.codedog.chapter03.factorybean.MyAspect"/>
+    &lt;!&ndash;3.使用 Spring 代理工厂定义一个名为userDaoProxy 的代理对象&ndash;&gt;
+        <bean id="userDaoProxy" class="org.springframework.aop.framework.ProxyFactoryBean">
+            &lt;!&ndash;3.1 指定代理实现的接口&ndash;&gt;
+            <property name="proxyInterfaces" value="xyz.codedog.chapter03.jdk.UserDao"/>
+            &lt;!&ndash;3.2 指定目标对象&ndash;&gt;
+            <property name="target" ref="userDao"/>
+            &lt;!&ndash;3.3 指定切面，植入环绕通知&ndash;&gt;
+            <property name="interceptorNames" value="myAspect"/>
+            &lt;!&ndash;3.4 指定代理方式， true ： 使用 cglib，false（默认）：使用 jdk 动态代理&ndash;&gt;
+            <property name="proxyTargetClass" value="true"/>
+        </bean>
+&lt;!&ndash;**************************************************************************************************************&ndash;&gt;
+&lt;!&ndash;AspectJ （基于XML的声明式）&ndash;&gt;
+    &lt;!&ndash;定义切面 Bean&ndash;&gt;
+    <bean id="myAspect1" class="xyz.codedog.chapter03.aspectj.xml.MyAspect"/>
+    <aop:config>
+        &lt;!&ndash;1.配置切面&ndash;&gt;
+        <aop:aspect id="aspect" ref="myAspect1">
+            &lt;!&ndash;2.配置切入点&ndash;&gt;
+            <aop:pointcut id="myPointCut" expression="execution(* xyz.codedog.chapter03.jdk.*.*(..))"/>
+            &lt;!&ndash;3.配置通知&ndash;&gt;
+            &lt;!&ndash;前置通知&ndash;&gt;
+            <aop:before method="myBefore" pointcut-ref="myPointCut"/>
+            &lt;!&ndash;后置通知&ndash;&gt;
+            <aop:after-returning method="myAfterReturning" pointcut-ref="myPointCut" returning="returnVal"/>
+            &lt;!&ndash;环绕通知&ndash;&gt;
+            <aop:around method="myArround" pointcut-ref="myPointCut"/>
+            &lt;!&ndash;异常通知&ndash;&gt;
+            <aop:after-throwing method="myAfterThrowing" pointcut-ref="myPointCut" throwing="e"/>
+            &lt;!&ndash;最终通知&ndash;&gt;
+            <aop:after method="myAfter" pointcut-ref="myPointCut"/>
+        </aop:aspect>
+    </aop:config>-->
+<!--**************************************************************************************************************-->
+    <context:component-scan base-package="xyz.codedog.chapter03"/>
+    <aop:aspectj-autoproxy/>
+</beans>
