@@ -1,6 +1,7 @@
 # Created by .ignore support plugin (hsz.mobi)
 !/.idea/
-!/src/test/
-!/LearnSpring.iml
+/src/test/
+LearnSpring.iml
 target/generated-sources/
 target/generated-test-sources/
+
