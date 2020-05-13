@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
-       xmlns:context="http://www.springframework.org/schema/context"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+       xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/aop https://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
     <!--1.配置数据源-->
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <!--数据库驱动-->
@@ -19,8 +21,26 @@
         <!--默认必须使用数据源-->
         <property name="dataSource" ref="dataSource"/>
     </bean>
-
-    <bean id="accountDao" class="xyz.codedog.chapter04.jdbc.impl.AccountDaoImpl">
+    <!--3.定义 id 为 accountDao 的 Bean-->
+    <bean id="accountDao" class="xyz.codedog.chapter05.impl.AccountDaoImpl">
+        <!--讲 jdbdTemplate 注入到 AccountDao 实例中-->
         <property name="jdbcTemplate" ref="jdbcTemplate"/>
     </bean>
+    <!--4.事务管理器，依赖于数据源-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+    <!--5.编写通知：对事务进行增强（通知），需要编写对切入点和具体执行事务细节-->
+    <tx:advice id="txAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*" propagation="REQUIRED" isolation="DEFAULT" read-only="false"/>
+        </tx:attributes>
+    </tx:advice>
+    <!--6.编写aop，让Spring自动对目标生成代理，需要使用AspectJ的表达式-->
+    <aop:config>
+        <!--切入点-->
+        <aop:pointcut id="txPointCut" expression="execution(* xyz.codedog.chapter05.*.*(..))"/>
+        <!--切面：将切入点与通知整合-->
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointCut"/>
+    </aop:config>
 </beans>
